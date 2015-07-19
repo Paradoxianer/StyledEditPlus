@@ -34,10 +34,9 @@ SRCS =	Bullet.cpp \
 		BulletData.cpp \
 		ParagraphStyleData.cpp \
 		TextEditor.cpp \
-		CharacterStyle.cpp\ 
-		PCommand.cpp \
+		CharacterStyle.cpp \
 		TextListener.cpp \
-		CharacterStyleData.cpp \ 
+		CharacterStyleData.cpp \
 		TextSelection.cpp \
 		TextSpan.cpp \
 		MarkupParser.cpp\
