@@ -28,23 +28,23 @@ APP_MIME_SIG = "application/x-vnd.Haiku-StyledEditPlus
 #	means this Makefile will not work correctly if two source files with the
 #	same name (source.c or source.cpp) are included from different directories.
 #	Also note that spaces in folder names do not work well with this Makefile.
-SRCS =	Bullet.cpp \
-		ParagraphStyle.cpp \
-		TextDocumentView.cpp \
-		BulletData.cpp \
-		ParagraphStyleData.cpp \
-		TextEditor.cpp \
-		CharacterStyle.cpp \
-		TextListener.cpp \
-		CharacterStyleData.cpp \
-		TextSelection.cpp \
-		TextSpan.cpp \
-		MarkupParser.cpp\
-		TextView.cpp \
-		Paragraph.cpp \
-		UndoableEditListener.cpp \
-		ParagraphLayout.cpp \
-		TextDocumentTest.cpp
+SRCS =	textview/Bullet.cpp \
+		textview/ParagraphStyle.cpp \
+		textview/TextDocumentView.cpp \
+		textview/BulletData.cpp \
+		textview/ParagraphStyleData.cpp \
+		textview/TextEditor.cpp \
+		textview/CharacterStyle.cpp \
+		textview/TextListener.cpp \
+		textview/CharacterStyleData.cpp \
+		textview/TextSelection.cpp \
+		textview/TextSpan.cpp \
+		textview/MarkupParser.cpp\
+		textview/TextView.cpp \
+		textview/Paragraph.cpp \
+		textview/UndoableEditListener.cpp \
+		textview/ParagraphLayout.cpp \
+		textview/TextDocumentTest.cpp
 
 
 #	Specify the resource definition files to use. Full or relative paths can be
@@ -83,12 +83,12 @@ LIBPATHS =
 #	Additional paths to look for system headers. These use the form
 #	"#include <header>". Directories that contain the files in SRCS are
 #	NOT auto-included here.
-SYSTEM_INCLUDE_PATHS = 
+SYSTEM_INCLUDE_PATHS = /boot/system/develop/headers/private/shared
 
 #	Additional paths paths to look for local headers. These use the form
 #	#include "header". Directories that contain the files in SRCS are
 #	automatically included.
-LOCAL_INCLUDE_PATHS = 
+LOCAL_INCLUDE_PATHS =  .
 
 #	Specify the level of optimization that you want. Specify either NONE (O0),
 #	SOME (O1), FULL (O2), or leave blank (for the default optimization level).

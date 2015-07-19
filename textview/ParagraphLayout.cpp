@@ -16,7 +16,7 @@
 #include <stdio.h>
 
 #include <AutoDeleter.h>
-#include <utf8_functions.h>
+#include "utf8_functions.h"
 #include <View.h>
 
 
