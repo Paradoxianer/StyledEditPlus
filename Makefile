@@ -90,7 +90,7 @@ SYSTEM_INCLUDE_PATHS = /boot/system/develop/headers/private/shared
 #	Additional paths paths to look for local headers. These use the form
 #	#include "header". Directories that contain the files in SRCS are
 #	automatically included.
-LOCAL_INCLUDE_PATHS =  .
+LOCAL_INCLUDE_PATHS =  . textview support ui
 
 #	Specify the level of optimization that you want. Specify either NONE (O0),
 #	SOME (O1), FULL (O2), or leave blank (for the default optimization level).
