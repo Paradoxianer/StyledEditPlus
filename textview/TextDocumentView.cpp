@@ -41,7 +41,7 @@ TextDocumentView::TextDocumentView(const char* name)
 	// Set default TextEditor
 	SetTextEditor(TextEditorRef(new(std::nothrow) TextEditor(), true));
 
-	SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
+	SetViewUIColor(B_DOCUMENT_BACKGROUND_COLOR);
 	SetLowUIColor(ViewUIColor());
 }
 
