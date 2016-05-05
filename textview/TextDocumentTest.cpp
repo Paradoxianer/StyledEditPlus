@@ -8,8 +8,10 @@
 #include <math.h>
 #include <stdio.h>
 
+#include <Button.h>
 #include <LayoutBuilder.h>
 #include <ScrollView.h>
+#include <StringView.h>
 #include <Window.h>
 #include <private/shared/ToolBar.h>
 
@@ -45,11 +47,16 @@ TextDocumentTest::ReadyToRun()
 		false, true, B_NO_BORDER);
 	
 	BToolBar* toolBar= new BToolBar();
+	toolBar->AddView(new BButton("Bold"));
+	BToolBar* statusBar= new BToolBar();
+	statusBar->AddView(new BStringView("firstStatus","Here will be the Status View"));
 	
-	BLayoutBuilder::Group<>(window, B_VERTICAL)
+	BLayoutBuilder::Group<>(window, B_VERTICAL,0)
 		.Add(toolBar)
 		.Add(scrollView)
 		.SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNLIMITED))
+		.Add(statusBar)
+
 	;
 
 	CharacterStyle regularStyle;
