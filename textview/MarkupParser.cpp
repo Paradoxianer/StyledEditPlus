@@ -9,7 +9,7 @@
 
 #include <math.h>
 
-#include "utf8_functions.h"
+#include <private/interface/utf8_functions.h>
 
 
 MarkupParser::MarkupParser()

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2014, Stephan Aßmus <superstippi@gmx.de>.
+ * Copyright 2013-2015, Stephan Aßmus <superstippi@gmx.de>.
  * All rights reserved. Distributed under the terms of the MIT License.
  */
 
@@ -11,12 +11,48 @@
 #include <View.h>
 
 
+class LayoutTextListener : public TextListener {
+public:
+	LayoutTextListener(TextDocumentLayout* layout)
+		:
+		fLayout(layout)
+	{
+	}
+
+	virtual	void TextChanging(TextChangingEvent& event)
+	{
+	}
+
+	virtual	void TextChanged(const TextChangedEvent& event)
+	{
+		printf("TextChanged(%" B_PRIi32 ", %" B_PRIi32 ")\n",
+			event.FirstChangedParagraph(),
+			event.ChangedParagraphCount());
+		// TODO: The event does not contain useful data. Make the event
+		// system work so only the affected paragraphs are updated.
+		// I think we need "first affected", "last affected" (both relative
+		// to the original paragraph count), and than how many new paragraphs
+		// are between these. From the difference in old number of paragraphs
+		// inbetween and the new count, we know how many new paragraphs are
+		// missing, and the rest in the range needs to be updated.
+//		fLayout->InvalidateParagraphs(event.FirstChangedParagraph(),
+//			event.ChangedParagraphCount());
+		fLayout->Invalidate();
+	}
+
+private:
+	TextDocumentLayout*	fLayout;
+};
+
+
+
 TextDocumentLayout::TextDocumentLayout()
 	:
 	fWidth(0.0f),
 	fLayoutValid(false),
 
 	fDocument(),
+	fTextListener(new(std::nothrow) LayoutTextListener(this), true),
 	fParagraphLayouts()
 {
 }
@@ -27,10 +63,11 @@ TextDocumentLayout::TextDocumentLayout(const TextDocumentRef& document)
 	fWidth(0.0f),
 	fLayoutValid(false),
 
-	fDocument(document),
+	fDocument(),
+	fTextListener(new(std::nothrow) LayoutTextListener(this), true),
 	fParagraphLayouts()
 {
-	_Init();
+	SetTextDocument(document);
 }
 
 
@@ -40,24 +77,35 @@ TextDocumentLayout::TextDocumentLayout(const TextDocumentLayout& other)
 	fLayoutValid(other.fLayoutValid),
 
 	fDocument(other.fDocument),
+	fTextListener(new(std::nothrow) LayoutTextListener(this), true),
 	fParagraphLayouts(other.fParagraphLayouts)
 {
+	if (fDocument.Get() != NULL)
+		fDocument->AddListener(fTextListener);
 }
 
 
 TextDocumentLayout::~TextDocumentLayout()
 {
+	SetTextDocument(NULL);
 }
 
 
 void
 TextDocumentLayout::SetTextDocument(const TextDocumentRef& document)
 {
-	if (fDocument != document) {
-		fDocument = document;
-		_Init();
-		fLayoutValid = false;
-	}
+	if (fDocument == document)
+		return;
+
+	if (fDocument.Get() != NULL)
+		fDocument->RemoveListener(fTextListener);
+
+	fDocument = document;
+	_Init();
+	fLayoutValid = false;
+
+	if (fDocument.Get() != NULL)
+		fDocument->AddListener(fTextListener);
 }
 
 
@@ -296,6 +344,9 @@ void
 TextDocumentLayout::_Init()
 {
 	fParagraphLayouts.Clear();
+
+	if (fDocument.Get() == NULL)
+		return;
 
 	const ParagraphList& paragraphs = fDocument->Paragraphs();
 

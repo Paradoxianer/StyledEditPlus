@@ -15,6 +15,7 @@
 #include <Path.h>
 #include <Roster.h>
 #include <String.h>
+#include <Window.h>
 
 #include "support.h"
 
@@ -49,7 +50,7 @@ App::QuitRequested()
 	if (fMainWindow != NULL
 		&& fMainWindow->LockLooperWithTimeout(1500000) == B_OK) {
 		BMessage windowSettings;
-		fMainWindow->StoreSettings(windowSettings);
+		//fMainWindow->StoreSettings(windowSettings);
 
 		fMainWindow->UnlockLooper();
 
@@ -69,8 +70,8 @@ App::ReadyToRun()
 	BMessage settings;
 	_LoadSettings(settings);
 
-	fMainWindow = new MainWindow(_GetNextWindowFrame(false), settings);
-	_ShowWindow(fMainWindow);
+//	fMainWindow = new BWindow(_GetNextWindowFrame(false), settings);
+//	_ShowWindow(fMainWindow);
 }
 
 
@@ -78,7 +79,7 @@ void
 App::MessageReceived(BMessage* message)
 {
 	switch (message->what) {
-		case MSG_MAIN_WINDOW_CLOSED:
+/*		case MSG_MAIN_WINDOW_CLOSED:
 		{
 			BMessage windowSettings;
 			if (message->FindMessage("window settings",
@@ -90,7 +91,7 @@ App::MessageReceived(BMessage* message)
 			if (fWindowCount == 0)
 				Quit();
 			break;
-		}
+		}*/
 
 		default:
 			BApplication::MessageReceived(message);
@@ -133,7 +134,7 @@ App::_Open(const BEntry& entry)
 
 
 void
-App::_ShowWindow(MainWindow* window)
+App::_ShowWindow(BWindow* window)
 {
 	window->Show();
 	fWindowCount++;

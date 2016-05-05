@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2014, Stephan Aßmus <superstippi@gmx.de>.
+ * Copyright 2013-2015, Stephan Aßmus <superstippi@gmx.de>.
  * All rights reserved. Distributed under the terms of the MIT License.
  */
 
@@ -10,21 +10,28 @@
 
 #include <Clipboard.h>
 #include <Cursor.h>
+#include <MessageRunner.h>
 #include <ScrollBar.h>
 #include <Shape.h>
 #include <Window.h>
 
 
+enum {
+	MSG_BLINK_CARET		= 'blnk',
+};
+
+
 TextDocumentView::TextDocumentView(const char* name)
 	:
-	BView(name, B_WILL_DRAW | B_FULL_UPDATE_ON_RESIZE | B_FRAME_EVENTS
-		| B_PULSE_NEEDED),
+	BView(name, B_WILL_DRAW | B_FULL_UPDATE_ON_RESIZE | B_FRAME_EVENTS),
 	fInsetLeft(0.0f),
 	fInsetTop(0.0f),
 	fInsetRight(0.0f),
 	fInsetBottom(0.0f),
 
 	fCaretBounds(),
+	fCaretBlinker(NULL),
+	fCaretBlinkToken(0),
 	fSelectionEnabled(true),
 	fShowCaret(false),
 	fMouseDown(false)
@@ -34,8 +41,8 @@ TextDocumentView::TextDocumentView(const char* name)
 	// Set default TextEditor
 	SetTextEditor(TextEditorRef(new(std::nothrow) TextEditor(), true));
 
-	SetViewColor(B_TRANSPARENT_COLOR);
-	SetLowColor(255, 255, 255, 255);
+	SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
+	SetLowUIColor(ViewUIColor());
 }
 
 
@@ -43,6 +50,7 @@ TextDocumentView::~TextDocumentView()
 {
 	// Don't forget to remove listeners
 	SetTextEditor(TextEditorRef());
+	delete fCaretBlinker;
 }
 
 
@@ -56,6 +64,16 @@ TextDocumentView::MessageReceived(BMessage* message)
 		case B_SELECT_ALL:
 			SelectAll();
 			break;
+
+		case MSG_BLINK_CARET:
+		{
+			int32 token;
+			if (message->FindInt32("token", &token) == B_OK
+				&& token == fCaretBlinkToken) {
+				_BlinkCaret();
+			}
+			break;
+		}
 
 		default:
 			BView::MessageReceived(message);
@@ -82,21 +100,6 @@ TextDocumentView::Draw(BRect updateRect)
 	} else {
 		_DrawSelection();
 	}
-}
-
-
-void
-TextDocumentView::Pulse()
-{
-	if (!fSelectionEnabled || fTextEditor.Get() == NULL)
-		return;
-
-	// Blink cursor
-	fShowCaret = !fShowCaret;
-	if (fCaretBounds.IsValid())
-		Invalidate(fCaretBounds);
-	else
-		Invalidate();
 }
 
 
@@ -192,7 +195,10 @@ TextDocumentView::KeyDown(const char* bytes, int32 numBytes)
 	}
 
 	fTextEditor->KeyDown(event);
-	fShowCaret = true;
+	_ShowCaret(true);
+	// TODO: It is necessary to invalidate all, since neither the caret bounds
+	// are updated in a way that would work here, nor is the text updated 
+	// correcty which has been edited.
 	Invalidate();
 }
 
@@ -350,7 +356,7 @@ TextDocumentView::SetCaret(BPoint location, bool extendSelection)
 	location.y -= fInsetTop;
 
 	fTextEditor->SetCaret(location, extendSelection);
-	fShowCaret = !extendSelection;
+	_ShowCaret(!extendSelection);
 	Invalidate();
 }
 
@@ -362,7 +368,7 @@ TextDocumentView::SelectAll()
 		return;
 
 	fTextEditor->SelectAll();
-	fShowCaret = false;
+	_ShowCaret(false);
 	Invalidate();
 }
 
@@ -462,6 +468,35 @@ TextDocumentView::_UpdateScrollBars()
 		verticalScrollBar->SetProportion((float)viewHeight / dataHeight);
 		verticalScrollBar->SetSteps(kVerticalScrollBarStep, viewHeight);
 	}
+}
+
+
+void
+TextDocumentView::_ShowCaret(bool show)
+{
+	fShowCaret = show;
+	if (fCaretBounds.IsValid())
+		Invalidate(fCaretBounds);
+	else
+		Invalidate();
+	// Cancel previous blinker, increment blink token so we only accept
+	// the message from the blinker we just created
+	fCaretBlinkToken++;
+	BMessage message(MSG_BLINK_CARET);
+	message.AddInt32("token", fCaretBlinkToken);
+	delete fCaretBlinker;
+	fCaretBlinker = new BMessageRunner(BMessenger(this), &message,
+		500000, 1);
+}	
+
+
+void
+TextDocumentView::_BlinkCaret()
+{
+	if (!fSelectionEnabled || fTextEditor.Get() == NULL)
+		return;
+
+	_ShowCaret(!fShowCaret);
 }
 
 

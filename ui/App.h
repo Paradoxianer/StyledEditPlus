@@ -10,7 +10,7 @@
 
 
 class BEntry;
-class MainWindow;
+//class MainWindow;
 
 
 class App : public BApplication {
@@ -26,7 +26,7 @@ public:
 
 private:
 			void				_Open(const BEntry& entry);
-			void				_ShowWindow(MainWindow* window);
+			void				_ShowWindow(BWindow* window);
 
 			bool				_LoadSettings(BMessage& settings);
 			void				_StoreSettings(const BMessage& windowSettings);
@@ -36,7 +36,8 @@ private:
 			bool				_LaunchPackageDaemon();
 
 private:
-			MainWindow*			fMainWindow;
+//			MainWindow*			fMainWindow;
+			BWindow*			fMainWindow;
 			int32				fWindowCount;
 
 			BMessage			fSettings;

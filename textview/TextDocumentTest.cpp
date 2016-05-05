@@ -9,6 +9,7 @@
 #include <stdio.h>
 
 #include <LayoutBuilder.h>
+#include <ScrollView.h>
 #include <Window.h>
 
 #include "MarkupParser.h"
@@ -36,8 +37,11 @@ TextDocumentTest::ReadyToRun()
 
 	TextDocumentView* documentView = new TextDocumentView("text document view");
 
+	BScrollView* scrollView = new BScrollView("text scroll view", documentView,
+		false, true, B_NO_BORDER);
+
 	BLayoutBuilder::Group<>(window, B_VERTICAL)
-		.Add(documentView)
+		.Add(scrollView)
 	;
 
 	CharacterStyle regularStyle;
@@ -116,6 +120,7 @@ TextDocumentTest::ReadyToRun()
 	);
 
 	documentView->SetTextDocument(document);
+	documentView->SetTextEditor(TextEditorRef(new TextEditor(), true));
 	documentView->MakeFocus();
 
 	window->Show();
