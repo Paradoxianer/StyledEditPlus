@@ -4,12 +4,15 @@
  */
 
 #include "TextDocumentTest.h"
+#include "StyledEditPlusDefs.h"
 
 #include <math.h>
 #include <stdio.h>
 
 #include <Button.h>
+#include <IconUtils.h>
 #include <Catalog.h>
+#include <Roster.h>
 
 #include <LayoutBuilder.h>
 #include <ScrollView.h>
@@ -28,7 +31,7 @@ using namespace BPrivate;
 
 TextDocumentTest::TextDocumentTest()
 	:
-	BApplication("application/x-vnd.Haiku-TextDocumentTest")
+	BApplication("application/x-vnd.Haiku-StyledEditPlus")
 {
 }
 
@@ -41,6 +44,7 @@ TextDocumentTest::~TextDocumentTest()
 void
 TextDocumentTest::ReadyToRun()
 {
+	Init();
 	BRect frame(50.0, 50.0, 749.0, 549.0);
 
 	BWindow* window = new BWindow(frame, "Text document test",
@@ -55,17 +59,17 @@ TextDocumentTest::ReadyToRun()
 
 
 	BToolBar* toolBar= new BToolBar();
-	toolBar->AddView(new BButton("New"));
-	toolBar->AddView(new BButton("Open"));
-	toolBar->AddView(new BButton("Save"));
+	toolBar->AddAction(MENU_FILE_NEW,this,LoadIcon("document_new"));
+	toolBar->AddAction(MENU_FILE_OPEN,this,LoadIcon("document_open"));
+	toolBar->AddAction(MENU_FILE_SAVE,this,LoadIcon("document_save"));
 	toolBar->AddSeparator();
 	toolBar->AddView(new BButton("StyleList"));
 	toolBar->AddView(fFontMenuField);
 	toolBar->AddView(new BButton("Size"));
 	toolBar->AddSeparator();
-	toolBar->AddView(new BButton("B"));
-	toolBar->AddView(new BButton("I"));
-	toolBar->AddView(new BButton("U"));
+	toolBar->AddAction(FONTBOLD_MSG,this,LoadIcon("text_bold"),"Bold",NULL,false);
+	toolBar->AddAction(FONTITALIC_MSG,this,LoadIcon("text_italic"),"Bold",NULL,true);;
+	toolBar->AddAction(FONTUNDERLINE_MSG,this,LoadIcon("text_underline"),"Bold",NULL,true);;
 	toolBar->AddSeparator();
 	toolBar->AddView(new BButton("Left"));
 	toolBar->AddView(new BButton("Center"));
@@ -268,6 +272,40 @@ TextDocumentTest::_UpdateFontmenus(bool setInitialfont)
 
 	fFontFamilyMenu->SetLabelFromMarked(false);
 	fFontFamilyMenu->SetTargetForItems(this);
+}
+
+void TextDocumentTest::Init(void)
+{
+	toolIconWidth	= 16;
+	toolIconHeight	= 16;
+	app_info info;
+	be_app->GetAppInfo(&info);
+	res	= new BResources();
+	BFile file(&info.ref, B_READ_ONLY);
+	if (res->SetTo(&file) != B_OK)
+	{
+		res=NULL;
+	}
+}
+
+BBitmap* TextDocumentTest::LoadIcon(char *icon_name)
+{
+	size_t size;
+	BBitmap		*bmp	= new BBitmap(BRect(0,0,toolIconWidth-1,toolIconHeight-1),B_RGBA32);
+	if (res != NULL){
+		const void* data = res->LoadResource(B_VECTOR_ICON_TYPE, icon_name, &size);
+		if (data) {
+			//conver the Icon using IconUtils because we can easly specify the size of the icons
+			BIconUtils::GetVectorIcon((const uint8 *)data,size,bmp);
+			//bmp = BTranslationUtils::GetBitmap(new BMemoryIO(data,size));
+			if (bmp) 
+				return bmp;
+			else
+				return NULL;
+		}
+		else
+			return NULL;
+	}
 }
 
 	
