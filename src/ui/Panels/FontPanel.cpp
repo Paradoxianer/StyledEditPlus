@@ -42,7 +42,7 @@ private:
 
 FontPreview::FontPreview(const BRect &amp;frame)
  :	BView(frame,"fontpreview",B_FOLLOW_LEFT_RIGHT | B_FOLLOW_TOP, B_WILL_DRAW),
- 	fPreviewText("AaBbCcDdEeFfGg")
+ 	fPreviewText("AaBbCcDdEeFfGg1234567890")
 {
 }
 
