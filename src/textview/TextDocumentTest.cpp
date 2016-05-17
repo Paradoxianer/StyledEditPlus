@@ -9,6 +9,8 @@
 #include <stdio.h>
 
 #include <Button.h>
+#include <Catalog.h>
+
 #include <LayoutBuilder.h>
 #include <ScrollView.h>
 #include <StringView.h>
@@ -18,6 +20,9 @@
 
 #include "MarkupParser.h"
 #include "TextDocumentView.h"
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "TextDocumentTest"
 
 using namespace BPrivate;
 
@@ -45,14 +50,45 @@ TextDocumentTest::ReadyToRun()
 
 	BScrollView* scrollView = new BScrollView("text scroll view", documentView,
 		false, true, B_NO_BORDER);
-	
+
+	BuildFontMenu();
+
+
 	BToolBar* toolBar= new BToolBar();
-	toolBar->AddView(new BButton("Bold"));
+	toolBar->AddView(new BButton("New"));
+	toolBar->AddView(new BButton("Open"));
+	toolBar->AddView(new BButton("Save"));
+	toolBar->AddSeparator();
+	toolBar->AddView(new BButton("StyleList"));
+	toolBar->AddView(fFontMenuField);
+	toolBar->AddView(new BButton("Size"));
+	toolBar->AddSeparator();
+	toolBar->AddView(new BButton("B"));
+	toolBar->AddView(new BButton("I"));
+	toolBar->AddView(new BButton("U"));
+	toolBar->AddSeparator();
+	toolBar->AddView(new BButton("Left"));
+	toolBar->AddView(new BButton("Center"));
+	toolBar->AddView(new BButton("Right"));
+	toolBar->AddView(new BButton("Block"));
+	toolBar->AddSeparator();
+	toolBar->AddView(new BButton("Inset Right"));
+	toolBar->AddView(new BButton("Inset Left"));
+	toolBar->AddSeparator();
+	toolBar->AddView(new BButton("Bullet List"));
+	toolBar->AddSeparator();
+	
+	
+	
 	toolBar->AddGlue();
 	BToolBar* statusBar= new BToolBar();
-	statusBar
-	statusBar->AddView(new BStringView("firstStatus","Here will be the Status View"));
-	
+	BFont* tmpFont	= new BFont();
+	BStringView* stringView = new BStringView("firstStatus","Here will be the Status View");
+	stringView->GetFont(tmpFont);
+	tmpFont->SetSize(tmpFont->Size()-2);
+	stringView->SetFont(tmpFont);
+	statusBar->AddView(stringView);
+	statusBar->AddSeparator();
 	BLayoutBuilder::Group<>(window, B_VERTICAL,0)
 		.Add(toolBar)
 		.Add(scrollView)
@@ -117,7 +153,7 @@ TextDocumentTest::ReadyToRun()
 	paragraphStyle.SetSpacingTop(8.0f);
 	paragraphStyle.SetAlignment(ALIGN_LEFT);
 	paragraphStyle.SetJustify(true);
-	paragraphStyle.SetBullet(Bullet("•", 12.0f));
+	paragraphStyle.SetBullet(Bullet("->", 12.0f));
 	paragraphStyle.SetLineInset(10.0f);
 
 	paragraph = Paragraph(paragraphStyle);
@@ -154,11 +190,98 @@ TextDocumentTest::ReadyToRun()
 }
 
 
+void TextDocumentTest::BuildToolBar(void)
+{	
+}
+
+void TextDocumentTest::BuildUI(void)
+{
+}
+
+void TextDocumentTest::BuildFontMenu(void)
+{
+	fFontFamilyMenu = new BPopUpMenu("fontfamlilymenu");
+	fFontMenuField = new BMenuField("FontMenuField",
+//		B_TRANSLATE("Font:"), fFontFamilyMenu);
+		"", fFontFamilyMenu);
+	_UpdateFontmenus(true);
+}
+
+void
+TextDocumentTest::_UpdateFontmenus(bool setInitialfont)
+{
+	BFont font = BFont();
+	BMenu* stylemenu = NULL;
+
+	font_family fontFamilyName, currentFamily;
+	font_style fontStyleName, currentStyle;
+
+	//GetFont(&font);
+	font.GetFamilyAndStyle(&currentFamily, &currentStyle);
+
+	const int32 fontfamilies = count_font_families();
+
+	fFontFamilyMenu->RemoveItems(0, fFontFamilyMenu->CountItems(), true);
+
+	for (int32 i = 0; i < fontfamilies; i++) {
+		if (get_font_family(i, &fontFamilyName) == B_OK) {
+			stylemenu = new BPopUpMenu(fontFamilyName);
+			stylemenu->SetLabelFromMarked(false);
+			const int32 styles = count_font_styles(fontFamilyName);
+			//TODO change msg.. to a suitable msg
+			BMessage* familyMsg = new BMessage('todo');
+			familyMsg->AddString("_family", fontFamilyName);
+			BMenuItem* familyItem = new BMenuItem(stylemenu, familyMsg);
+			fFontFamilyMenu->AddItem(familyItem);
+
+			for (int32 j = 0; j < styles; j++) {
+				if (get_font_style(fontFamilyName, j, &fontStyleName) == B_OK) {
+					//TODO change msg.. to a suitable msg
+					BMessage* fontMsg = new BMessage('todo');
+					fontMsg->AddString("_family", fontFamilyName);
+					fontMsg->AddString("_style", fontStyleName);
+
+					BMenuItem* styleItem = new BMenuItem(fontStyleName, fontMsg);
+					styleItem->SetMarked(false);
+
+					// setInitialfont is used when we attach the FontField
+					if (!strcmp(fontStyleName, currentStyle)
+						&& !strcmp(fontFamilyName, currentFamily)
+						&& setInitialfont) {
+						styleItem->SetMarked(true);
+						familyItem->SetMarked(true);
+
+						BString string;
+						string << currentFamily << " " << currentStyle;
+
+						if (fFontMenuField)
+							fFontMenuField->MenuItem()->SetLabel(string.String());
+					}
+					stylemenu->AddItem(styleItem);
+				}
+			}
+
+			stylemenu->SetRadioMode(true);
+			stylemenu->SetTargetForItems(this);
+		}
+	}
+
+	fFontFamilyMenu->SetLabelFromMarked(false);
+	fFontFamilyMenu->SetTargetForItems(this);
+}
+
+	
+void TextDocumentTest::MessageReceived(BMessage* message)
+{
+	
+}
+
 int
 main(int argc, char* argv[])
 {
 	TextDocumentTest().Run();
 	return 0;
 }
+
 
 

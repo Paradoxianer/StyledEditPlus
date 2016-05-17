@@ -7,6 +7,8 @@
 
 
 #include <Application.h>
+#include <PopUpMenu.h>
+#include <MenuField.h>
 
 
 class TextDocumentTest : public BApplication {
@@ -15,6 +17,18 @@ public:
 	virtual						~TextDocumentTest();
 
 	virtual	void				ReadyToRun();
+			void				MessageReceived(BMessage* message);
+					
+private:
+	
+			void				BuildToolBar(void);
+			void 				BuildFontMenu(void);
+			void				_UpdateFontmenus(bool setInitialfont = false);
+			void				BuildUI(void);
+			BMenuField*			fFontMenuField;
+			BMenu*				fFontFamilyMenu;
+
+
 };
 
 
