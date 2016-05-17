@@ -1,14 +1,14 @@
 #ifndef FONTPANEL_H_
 #define FONTPANEL_H_
 
-#include <View.h&gt;
-#include <Window.h&gt;
-#include <Button.h&gt;
-#include <ListView.h&gt;
-#include <ListItem.h&gt;
-#include <Font.h&gt;
-#include <Message.h&gt;
-#include <Messenger.h&gt;
+#include <View.h>
+#include <Window.h>
+#include <Button.h>
+#include <ListView.h>
+#include <ListItem.h>
+#include <Font.h>
+#include <Message.h>
+#include <Messenger.h>
 
 class FontWindow;
 

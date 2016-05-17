@@ -28,7 +28,8 @@ APP_MIME_SIG = "application/x-vnd.Haiku-StyledEditPlus
 #	means this Makefile will not work correctly if two source files with the
 #	same name (source.c or source.cpp) are included from different directories.
 #	Also note that spaces in folder names do not work well with this Makefile.
-SRCS =	textview/Bullet.cpp \
+SRCS =	ui/Panels/FontView.cpp \
+		textview/Bullet.cpp \
 		textview/ParagraphStyle.cpp \
 		textview/TextDocumentView.cpp \
 		textview/BulletData.cpp \
