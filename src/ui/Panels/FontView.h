@@ -7,7 +7,7 @@
 #include <InterfaceDefs.h>
 
 
-#define	PREVIEW_STR "AaBbCcDdEeFfGg1234567890"
+#define	PREVIEW_STR "AaBbCcDdEeFfGg - 1234567890"
 const uint32	M_FONT_SELECTED 				= 'mfsl';
 
 
@@ -26,14 +26,16 @@ public:
 	void		SetItalic(bool italic);
 	void		SetOutlined(int32 outline);
 
-	void		SelectFont(const BFont &font);
+	void		SelectFont(BFont &font);
 	void		SelectFont(font_family family, font_style style, float size);
 
-	void		FilterList(const char *newFilter);
+	void		SetFilter(char *newFilter);
 	void		ResetFilter(void);	
 	
 private:	
 	char		*filterString;
+	void		RescanForFonts(void);
+	void		DeleteAll(void);
 	
 };
 
