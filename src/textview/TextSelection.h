@@ -7,7 +7,8 @@
 
 
 #include <SupportDefs.h>
-
+#include <algorithm>
+#include <stdlib.h>
 
 class TextSelection {
 public:
@@ -26,6 +27,13 @@ public:
 			void				SetCaret(int32 caret);
 	inline	int32				Caret() const
 									{ return fCaret; }
+
+	inline	int32				Start() const
+									{return std::min(fAnchor,fCaret);}
+	inline	int32				End() const
+									{return std::max(fAnchor,fCaret);}
+	inline	int32				Length() const
+									{return std::abs(fAnchor-fCaret);}
 
 private:
 			int32				fAnchor;

@@ -69,4 +69,3 @@ TextSelection::SetCaret(int32 caret)
 {
 	fCaret = caret;
 }
-
