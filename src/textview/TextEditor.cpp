@@ -145,6 +145,25 @@ TextEditor::SetCharacterStyle(::CharacterStyle style)
 	fStyleAtCaret = style;
 
 	if (HasSelection()) {
+		int32			i		= 0;
+		int32			q		= 0;
+		TextDocumentRef	tRef	= fDocument.Get()->SubDocument(fSelection.Start(),fSelection.Length());
+		ParagraphList	prgList	= tRef.Get()->Paragraphs();
+		Paragraph		tmpPrgh;
+		TextSpanList	txtSpList;
+		TextSpan		tmpSpan;
+		for (i=0; i<prgList.CountItems();i++)
+		{
+			tmpPrgh=prgList.ItemAtFast(i);
+			txtSpList=tmpPrgh.TextSpans();
+			for (q=0; q<txtSpList.CountItems(); q++)
+			{
+				tmpSpan=txtSpList.ItemAtFast(q);
+				//TODO get the style
+				//Replace the changed style
+			}
+			
+		}
 		// TODO: Apply style to selection range
 	}
 }
