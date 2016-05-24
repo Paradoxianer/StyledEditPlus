@@ -143,8 +143,16 @@ TextDocumentView::MouseDown(BPoint where)
 	MakeFocus();
 
 	int32 modifiers = 0;
-	if (Window() != NULL && Window()->CurrentMessage() != NULL)
+	int32 clicks	= 0;
+	if (Window() != NULL && Window()->CurrentMessage() != NULL){
 		Window()->CurrentMessage()->FindInt32("modifiers", &modifiers);
+		Window()->CurrentMessage()->FindInt32("clicks", &clicks);
+	}
+	if (clicks >1){
+		//TODO if its 2 then select the TextSpan
+		//if its 3 then select the whole Paragraph
+	}
+	
 
 	fMouseDown = true;
 	SetMouseEventMask(B_POINTER_EVENTS, B_LOCK_WINDOW_FOCUS);
