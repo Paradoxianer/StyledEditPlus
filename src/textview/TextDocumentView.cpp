@@ -149,8 +149,13 @@ TextDocumentView::MouseDown(BPoint where)
 		Window()->CurrentMessage()->FindInt32("clicks", &clicks);
 	}
 	if (clicks >1){
+		
 		//TODO if its 2 then select the TextSpan
+		//find the textoffset where the TextSpan starts
+		//TextSpan.Text() ->Length
 		//if its 3 then select the whole Paragraph
+		//find the textoffset where the Paragraph starts
+		//ParagraphAt -> Paragraph.Length()
 	}
 	
 
