@@ -159,8 +159,13 @@ TextEditor::SetCharacterStyle(::CharacterStyle style)
 			for (q=0; q<txtSpList.CountItems(); q++)
 			{
 				tmpSpan=txtSpList.ItemAtFast(q);
-				//TODO get the style
-				//Replace the changed style
+				
+				//TODO find out what property from CharacterStyle
+				// should be applied because if you press bold you dont want to change all the other
+				// properties wich are stored in CharacterStyle... thats a real challange
+				//For now only Replace the whole style
+				if (tmpSpan != NULL)
+					tmpSpan.SetStyle(style)
 			}
 			
 		}
