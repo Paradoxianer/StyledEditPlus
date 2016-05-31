@@ -7,6 +7,7 @@
 #include "StatusView.h"
 #include "clsWidgetBlock.h"
 	
+#include <String.h>
 #include <Slider.h>
 #include <Window.h>
 #include <StringView.h>

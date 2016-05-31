@@ -18,7 +18,7 @@ FormatToolBar::FormatToolBar(BPoint point) : ToolBar( point)
 	_colorb = new ColorButton(BRect(5,5,50,30),"Color","Color", new BMessage('ccol'));
 	
 	/* FONTS */
-	_fonts = new BPopUpMenu(_T("Font"));
+	_fonts = new BPopUpMenu("Font");
 	BMessage* fontMessage;
 	
     BFont font;
@@ -40,7 +40,7 @@ FormatToolBar::FormatToolBar(BPoint point) : ToolBar( point)
     
     /* SIZE */
     BString str;
-	_size = new BPopUpMenu(_T("Size"));
+	_size = new BPopUpMenu("Size");
 	for (int32 i = 0 ; i < sizeof(sizes) / sizeof(int) ; i++)
 	{
 		str	<< sizes[i];
@@ -57,7 +57,7 @@ FormatToolBar::FormatToolBar(BRect r) : ToolBar( r)
 	_colorb = new ColorButton(BRect(5,5,50,30),"Color","Color", new BMessage('ccol'));
 	
 	/* FONTS */
-	_fonts = new BPopUpMenu(_T("Font"));
+	_fonts = new BPopUpMenu("Font");
 	BMessage* Message;
 	
     BFont font;
@@ -79,7 +79,7 @@ FormatToolBar::FormatToolBar(BRect r) : ToolBar( r)
     
     /* SIZE */
     BString str;
-	_size = new BPopUpMenu(_T("Size"));
+	_size = new BPopUpMenu("Size");
 	for (int32 i = 0 ; i < sizeof(sizes) / sizeof(int) ; i++)
 	{
 		str	<< sizes[i];
@@ -104,13 +104,13 @@ void FormatToolBar::AttachedToWindow()
 	AddChild(menu);
     menu->MoveBy(0,3);    	
 	_fonts->SetTargetForItems( this );
-	_fonts->ItemAt(0)->Invoke();
+	//_fonts->ItemAt(0)->Invoke();
 
     menu = new BMenuField(BRect(155, 8, 200, 20), "Fonts", NULL, _size);
 	AddChild(menu);
     menu->MoveBy(0,3);
 	_size->SetTargetForItems( this );
-	_size->ItemAt(0)->Invoke();
+	//_size->ItemAt(0)->Invoke();
    
 }
 
@@ -132,7 +132,7 @@ void FormatToolBar::MessageReceived(BMessage *message)
 		    if ( ! _styles )
 		    {
 				BMenuField* menu;
-				_styles = new BPopUpMenu(_T("Style"));				
+				_styles = new BPopUpMenu("Style");				
 				menu = new BMenuField(BRect(200, 8, 250, 20), "Styles", NULL, _styles);		    
 				AddChild( menu );
 				menu->MoveBy(0,3);
@@ -165,7 +165,7 @@ void FormatToolBar::MessageReceived(BMessage *message)
 			_styles->SetRadioMode(true);
 			_styles->SetTargetForItems(this);
 			/* Set a default value */
-			_styles->ItemAt(0)->Invoke();
+//			_styles->ItemAt(0)->Invoke();
 
 
 		break;	

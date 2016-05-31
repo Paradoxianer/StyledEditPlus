@@ -16,7 +16,7 @@ ColorButton::ColorButton(
 	, uint32 flags = B_WILL_DRAW | B_NAVIGABLE)
 	: BButton(frame, name, label, message, resizemode, flags)
 {
-		_colors = new BPopUpMenu(_T("Color"));
+		_colors = new BPopUpMenu("Color");
 
   	for (int i = 0 ; i < (sizeof(rgbColors) / sizeof(t_rgbColor)) ; i++ )
 		    _colors->AddItem(new CColorMenuItem(rgbColors[i].colorString, 
