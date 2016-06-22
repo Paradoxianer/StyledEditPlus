@@ -164,8 +164,7 @@ TextEditor::SetCharacterStyle(::CharacterStyle style)
 				// should be applied because if you press bold you dont want to change all the other
 				// properties wich are stored in CharacterStyle... thats a real challange
 				//For now only Replace the whole style
-				if (tmpSpan != NULL)
-					tmpSpan.SetStyle(style)
+				tmpSpan.SetStyle(style);
 			}
 			
 		}
