@@ -28,27 +28,26 @@ APP_MIME_SIG =
 #	means this Makefile will not work correctly if two source files with the
 #	same name (source.c or source.cpp) are included from different directories.
 #	Also note that spaces in folder names do not work well with this Makefile.
-SRCS =	CTextView.cpp \
-		DocumentView.cpp \
-		OOffice.cpp \
-		OOfficeWindow.cpp \
-		StatusView.cpp \
-		WorkView.cpp \
-		ColorPicker/ColorPicker.cpp \
-		ColorPicker/ColorSlider.cpp \
-		ColorPicker/HSVView.cpp \
-		ColorPicker/KeyFilter.cpp \
-		ColorPicker/ONView.cpp \
+SRCS =	DocumentView.cpp\
+		OOffice.cpp\
+		OOfficeWindow.cpp\
+		StatusView.cpp\
+		WorkView.cpp\
+		CTextView.cpp\
+		Widgets/clsWidgetBlock.cpp\
+		ToolBars/FormatToolBar.cpp\
+		ToolBars/ToolBar.cpp\
+		ColorButton.cpp\
+		IconMenuItem.cpp\
+		ColorMenuItem.cpp\
+		FontMenuItem.cpp\
+		FontMenu.cpp\
 		ColorPicker/RGBView.cpp\
-		ToolBars/FormatToolBar.cpp \
-		ToolBars/ToolBar.cpp \
-		Widgets/clsWidgetBlock.cpp \
-		Widgets/ColorMenuItem.cpp \ 
-		Widgets/ColorButton.cpp \
-		Widgets/FontMenu.cpp \
-		Widgets/FontMenuItem.cpp \
-		Widgets/IconMenuItem.cpp
-		
+		ONView.cpp\
+		KeyFilter.cpp\
+		HSVView.cpp\
+		ColorPicker.cpp\
+		ColorSlider.cpp
 
 #	Specify the resource definition files to use. Full or relative paths can be
 #	used.
@@ -74,7 +73,7 @@ RSRCS =
 #	- 	if your library does not follow the standard library naming scheme,
 #		you need to specify the path to the library and it's name.
 #		(e.g. for mylib.a, specify "mylib.a" or "path/mylib.a")
-LIBS = be
+LIBS =  be
 
 #	Specify additional paths to directories following the standard libXXX.so
 #	or libXXX.a naming scheme. You can specify full paths or paths relative
@@ -91,7 +90,10 @@ SYSTEM_INCLUDE_PATHS =
 #	Additional paths paths to look for local headers. These use the form
 #	#include "header". Directories that contain the files in SRCS are
 #	automatically included.
-LOCAL_INCLUDE_PATHS =  Misc
+LOCAL_INCLUDE_PATHS =	Misc\
+						ColorPicker\
+						Widgets\
+						ToolBars
 
 #	Specify the level of optimization that you want. Specify either NONE (O0),
 #	SOME (O1), FULL (O2), or leave blank (for the default optimization level).
@@ -113,7 +115,7 @@ DEFINES =
 
 #	Specify the warning level. Either NONE (suppress all warnings),
 #	ALL (enable all warnings), or leave blank (enable default warnings).
-WARNINGS = 
+WARNINGS = ALL
 
 #	With image symbols, stack crawls in the debugger are meaningful.
 #	If set to "TRUE", symbols will be created.
