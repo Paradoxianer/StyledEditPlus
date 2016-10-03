@@ -11,7 +11,7 @@
 CharacterStyleData::CharacterStyleData()
 	:
 	fFont(),
-
+	
 	fAscent(-1.0f),
 	fDescent(-1.0f),
 	fWidth(-1.0f),
@@ -29,7 +29,8 @@ CharacterStyleData::CharacterStyleData()
 	fUnderlineColor(fFgColor),
 
 	fStrikeOutStyle(STRIKE_OUT_NONE),
-	fUnderlineStyle(UNDERLINE_NONE)
+	fUnderlineStyle(UNDERLINE_NONE),
+	fChangedMask(NON_CHARATER_STYLES_CHANGED)
 {
 }
 
@@ -55,7 +56,8 @@ CharacterStyleData::CharacterStyleData(const CharacterStyleData& other)
 	fUnderlineColor(other.fUnderlineColor),
 
 	fStrikeOutStyle(other.fStrikeOutStyle),
-	fUnderlineStyle(other.fUnderlineStyle)
+	fUnderlineStyle(other.fUnderlineStyle),
+	fChangedMask(other.fChangedMask)
 {
 }
 
@@ -84,7 +86,8 @@ CharacterStyleData::operator==(const CharacterStyleData& other) const
 		&& fUnderlineColor == other.fUnderlineColor
 
 		&& fStrikeOutStyle == other.fStrikeOutStyle
-		&& fUnderlineStyle == other.fUnderlineStyle;
+		&& fUnderlineStyle == other.fUnderlineStyle
+		&& fChangedMask == other.fChangedMask;
 }
 
 
@@ -121,6 +124,7 @@ CharacterStyleData::SetAscent(float ascent)
 		return CharacterStyleDataRef(this);
 
 	ret->fAscent = ascent;
+	fChangedMask |= ASCENT_CHANGED;
 	return CharacterStyleDataRef(ret, true);
 }
 
@@ -148,6 +152,7 @@ CharacterStyleData::SetDescent(float descent)
 		return CharacterStyleDataRef(this);
 
 	ret->fDescent = descent;
+	fChangedMask |= DESCENT_CHANGED;
 	return CharacterStyleDataRef(ret, true);
 }
 
@@ -175,6 +180,7 @@ CharacterStyleData::SetWidth(float width)
 		return CharacterStyleDataRef(this);
 
 	ret->fWidth = width;
+	fChangedMask |= WIDTH_CHANGED;
 	return CharacterStyleDataRef(ret, true);
 }
 
@@ -190,6 +196,7 @@ CharacterStyleData::SetGlyphSpacing(float glyphSpacing)
 		return CharacterStyleDataRef(this);
 
 	ret->fGlyphSpacing = glyphSpacing;
+	fChangedMask |= GLYPH_SPACING_CHANGED;
 	return CharacterStyleDataRef(ret, true);
 }
 
@@ -205,6 +212,7 @@ CharacterStyleData::SetForegroundColor(color_which which)
 		return CharacterStyleDataRef(this);
 
 	ret->fWhichFgColor = which;
+	fChangedMask |= FORE_GROUND_COLOR_CHANGED;
 	return CharacterStyleDataRef(ret, true);
 }
 
@@ -221,6 +229,7 @@ CharacterStyleData::SetForegroundColor(rgb_color color)
 
 	ret->fFgColor = color;
 	ret->fWhichFgColor = B_NO_COLOR;
+	fChangedMask |= FORE_GROUND_COLOR_CHANGED;	
 	return CharacterStyleDataRef(ret, true);
 }
 
@@ -236,6 +245,7 @@ CharacterStyleData::SetBackgroundColor(color_which which)
 		return CharacterStyleDataRef(this);
 
 	ret->fWhichBgColor = which;
+	fChangedMask |= BACKGROUND_COLOR_CHANGED;
 	return CharacterStyleDataRef(ret, true);
 }
 
@@ -252,6 +262,7 @@ CharacterStyleData::SetBackgroundColor(rgb_color color)
 
 	ret->fBgColor = color;
 	ret->fWhichBgColor = B_NO_COLOR;
+	fChangedMask |= BACKGROUND_COLOR_CHANGED;
 	return CharacterStyleDataRef(ret, true);
 }
 
@@ -267,6 +278,7 @@ CharacterStyleData::SetStrikeOutColor(color_which which)
 		return CharacterStyleDataRef(this);
 
 	ret->fWhichStrikeOutColor = which;
+	fChangedMask |= STRIKE_OUT_COLOR_CHANGED;
 	return CharacterStyleDataRef(ret, true);
 }
 
@@ -283,6 +295,7 @@ CharacterStyleData::SetStrikeOutColor(rgb_color color)
 
 	ret->fStrikeOutColor = color;
 	ret->fWhichStrikeOutColor = B_NO_COLOR;
+	fChangedMask |=STRIKE_OUT_COLOR_CHANGED;
 	return CharacterStyleDataRef(ret, true);
 }
 
@@ -298,6 +311,7 @@ CharacterStyleData::SetUnderlineColor(color_which which)
 		return CharacterStyleDataRef(this);
 
 	ret->fWhichUnderlineColor = which;
+	fChangedMask |= UNDERLINE_COLOR_CHANGED;
 	return CharacterStyleDataRef(ret, true);
 }
 
@@ -314,6 +328,7 @@ CharacterStyleData::SetUnderlineColor(rgb_color color)
 
 	ret->fUnderlineColor = color;
 	ret->fWhichUnderlineColor = B_NO_COLOR;
+	fChangedMask |= UNDERLINE_COLOR_CHANGED;
 	return CharacterStyleDataRef(ret, true);
 }
 
@@ -329,6 +344,7 @@ CharacterStyleData::SetStrikeOut(uint8 strikeOut)
 		return CharacterStyleDataRef(this);
 
 	ret->fStrikeOutStyle = strikeOut;
+	fChangedMask |=STRIKEOUT_FACE_CHANGED;
 	return CharacterStyleDataRef(ret, true);
 }
 
@@ -344,6 +360,7 @@ CharacterStyleData::SetUnderline(uint8 underline)
 		return CharacterStyleDataRef(this);
 
 	ret->fUnderlineStyle = underline;
+	fChangedMask |= UNDERLINE_FACE_CHANGED;
 	return CharacterStyleDataRef(ret, true);
 }
 
