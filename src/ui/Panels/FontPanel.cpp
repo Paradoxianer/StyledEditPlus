@@ -53,7 +53,7 @@ FontPreview::FontPreview(const BRect &amp;frame)
 void
 FontPreview::SetPreviewText(const char *text)
 {
-	fPreviewText = text ? text : "AaBbCcDdEeFfGg";
+	fPreviewText = text ? text : "AaBbCcDdEeFfGg1234567890";
 }
 
 
@@ -88,10 +88,6 @@ FontPreview::Draw(BRect r)
 		drawpt.y = Bounds().bottom - 10;
 	DrawString(fPreviewText.String(), drawpt);
 }
-
-
-
-
 
 
 class FontWindow : public BWindow
