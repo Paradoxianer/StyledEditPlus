@@ -1,15 +1,16 @@
 #ifndef FONT_VIEW_H_
 #define FONT_VIEW_H_
 
-#include <ListView.h>
-#include <ListItem.h>
 #include <Font.h>
 #include <InterfaceDefs.h>
+#include <ListView.h>
+#include <ListItem.h>
+#include <String.h>
 
-
-#define	PREVIEW_STR "AaBbCcDdEeFfGg - 1234567890"
-const uint32	M_FONT_SELECTED 				= 'mfsl';
-
+#define	PREVIEW_STR "AaBbCcDdEeFfGg!?1234567890"
+const uint32	M_FONT_SELECTED		= 'mfsl';
+const float		kMarginTopBottom	= 2.0;
+const float		kMarginLeftRight	= 4.0;
 
 class FontView : public BListView
 {
@@ -30,12 +31,19 @@ public:
 	void		SelectFont(font_family family, font_style style, float size);
 
 	void		SetFilter(char *newFilter);
-	void		ResetFilter(void);	
+	void		ResetFilter(void);
+	void		SetDividerPosition(float pos){fDivider = pos;}
+	float		DividerPosition(void){return fDivider;}
 	
 private:	
-	char		*filterString;
 	void		RescanForFonts(void);
 	void		DeleteAll(void);
+	
+	float		fDivider;
+	BString		filterString;
+	BString		fDrawString;
+	
+
 	
 };
 
@@ -57,12 +65,11 @@ public:
 			void	SetFace(uint16 face){font.SetFace(face);};
 			void	SetFlags(uint32 flags){font.SetFlags(flags);};
 
-    		float	Height() const;
-			float	Width() const;
+			void	Update( BView *owner, const BFont *fFont);
 
 private:
 		font_family	family;
-		BFont		font;    
+		BFont		font;		
 };
 
 
