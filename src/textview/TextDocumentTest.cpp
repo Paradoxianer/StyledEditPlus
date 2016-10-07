@@ -56,7 +56,7 @@ TextDocumentTest::ReadyToRun()
 	BScrollView* scrollView = new BScrollView("text scroll view", documentView,
 		false, true, B_NO_BORDER);
 	FontView* fView = new FontView();
-	fView->SetFilter("be");
+	//fView->SetFilter("be");
 
 	BScrollView* fontScrollView = new BScrollView("font scroll view", fView,
 		false, true, B_NO_BORDER);		
