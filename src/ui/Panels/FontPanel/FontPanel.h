@@ -17,6 +17,22 @@ enum
 	M_FONT_SELECTED='mfsl'
 };
 
+enum
+{
+	M_OK = 'm_ok',
+	M_CANCEL,
+	M_SIZE_CHANGED,
+	M_FAMILY_SELECTED,
+	M_STYLE_SELECTED,
+	M_HIDE_WINDOW
+};
+
+
+#define	PREVIEW_STR "AaBbCcDdEeFfGg!?1234567890"
+const float		kMarginTopBottom	= 2.0;
+const float		kMarginLeftRight	= 4.0;
+
+
 class FontPanel
 {
 public:
@@ -26,7 +42,7 @@ public:
 									bool modal = false,
 									bool hide_when_done = true);
 	virtual				~FontPanel(void);
-			void		SelectFont(const BFont &amp;font);
+			void		SelectFont(const BFont &font);
 			void		SelectFont(font_family family, font_style style,
 									float size = 12);
 			void		Show();
@@ -39,7 +55,7 @@ public:
 			bool		HideWhenDone(void) const;
 			void		SetFontSize(uint16 size);
 private:
-	FontWindow *fWindow;
+		FontWindow		*fWindow;
 	
 };
 
