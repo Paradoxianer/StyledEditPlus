@@ -29,6 +29,7 @@ APP_MIME_SIG = "application/x-vnd.Haiku-StyledEditPlus
 #	same name (source.c or source.cpp) are included from different directories.
 #	Also note that spaces in folder names do not work well with this Makefile.
 SRCS =	ui/Panels/FontPanel/FontView.cpp \
+		ui/Panels/FontPanel/FontPanel.cpp \
 		textview/Bullet.cpp \
 		textview/ParagraphStyle.cpp \
 		textview/TextDocumentView.cpp \
@@ -86,7 +87,8 @@ LIBPATHS =
 #	Additional paths to look for system headers. These use the form
 #	"#include <header>". Directories that contain the files in SRCS are
 #	NOT auto-included here.
-SYSTEM_INCLUDE_PATHS = /boot/system/develop/headers/private/shared
+SYSTEM_INCLUDE_PATHS =	/boot/system/develop/headers/private/shared \
+						/boot/system/develop/headers/private/interface
 
 #	Additional paths paths to look for local headers. These use the form
 #	#include "header". Directories that contain the files in SRCS are
