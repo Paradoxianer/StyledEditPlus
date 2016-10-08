@@ -30,6 +30,7 @@ APP_MIME_SIG = "application/x-vnd.Haiku-StyledEditPlus
 #	Also note that spaces in folder names do not work well with this Makefile.
 SRCS =	ui/Panels/FontPanel/FontView.cpp \
 		ui/Panels/FontPanel/FontPanel.cpp \
+		ui/Panels/FontPanel/FontWindow.cpp \
 		textview/Bullet.cpp \
 		textview/ParagraphStyle.cpp \
 		textview/TextDocumentView.cpp \
