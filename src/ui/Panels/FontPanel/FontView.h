@@ -7,11 +7,6 @@
 #include <ListItem.h>
 #include <String.h>
 
-#define	PREVIEW_STR "AaBbCcDdEeFfGg!?1234567890"
-const uint32	M_FONT_SELECTED		= 'mfsl';
-const float		kMarginTopBottom	= 2.0;
-const float		kMarginLeftRight	= 4.0;
-
 class FontView : public BListView
 {
 public:
@@ -27,7 +22,7 @@ public:
 	void		SetItalic(bool italic);
 	void		SetOutlined(int32 outline);
 
-	void		SelectFont(BFont &font);
+	void		SelectFont(const BFont &font);
 	void		SelectFont(font_family family, font_style style, float size);
 
 	void		SetFilter(char *newFilter);

@@ -1,7 +1,7 @@
 
 #include "FontView.h"
+#include "FontPanel.h"
 #include <string.h>
-#include <math.h>
 
 FontView::FontView(void)
  : BListView("font_view"),
@@ -40,7 +40,7 @@ FontView::SelectFont(font_family family, font_style style, float size)
 
 
 void
-FontView::SelectFont(BFont &font)
+FontView::SelectFont(const BFont &font)
 {
 }
 
@@ -116,7 +116,7 @@ void  FontItem::DrawItem(BView *owner, BRect frame, bool complete)
 	
 	fView->GetFontHeight(&m_fontHeight);
 	fView->SetHighColor(color);
-	fView->MovePenTo(frame.left+kMarginLeftRight, frame.bottom-abs(m_fontHeight.descent));
+	fView->MovePenTo(frame.left+kMarginLeftRight, frame.top+kMarginTopBottom+m_fontHeight.ascent+m_fontHeight.leading);
    	fView->DrawString(family);
 	//save the BView font
 	
@@ -124,7 +124,7 @@ void  FontItem::DrawItem(BView *owner, BRect frame, bool complete)
 	owner->GetFont(&tmpFont);
 	owner->SetFont(&font);
 	fView->GetFontHeight(&m_fontHeight);
-	fView->MovePenTo(frame.left+kMarginLeftRight+fView->DividerPosition(), frame.bottom-abs(m_fontHeight.descent));
+	fView->MovePenTo(frame.left+kMarginLeftRight+fView->DividerPosition(), frame.top+kMarginTopBottom+m_fontHeight.ascent+m_fontHeight.leading);
 	//draw the PreviewString
 	owner->DrawString(PREVIEW_STR);
 	//and restore the default BView Font
@@ -143,9 +143,9 @@ FontItem::Update( BView *owner, const BFont *fFont)
 	SetWidth(font.StringWidth(PREVIEW_STR) + fView->DividerPosition()+(2*kMarginLeftRight));
 	font_height			m_fontHeight;
 	font.GetHeight(&m_fontHeight);
-	float newHeight = abs(m_fontHeight.ascent) + abs(m_fontHeight.descent) + abs(m_fontHeight.leading)+(kMarginTopBottom);
+	float newHeight = m_fontHeight.ascent + m_fontHeight.descent + m_fontHeight.leading + kMarginTopBottom;
 	fFont->GetHeight(&m_fontHeight);
-	float newHeight2 = abs(m_fontHeight.ascent) + abs(m_fontHeight.descent) + abs(m_fontHeight.leading)+(kMarginTopBottom);
+	float newHeight2 = m_fontHeight.ascent + m_fontHeight.descent + m_fontHeight.leading+ kMarginTopBottom;
 	if (newHeight > newHeight2)
 		SetHeight(newHeight);
 	else
