@@ -5,7 +5,7 @@
 
 #include "TextDocumentTest.h"
 #include "StyledEditPlusDefs.h"
-#include "FontView.h"
+#include "FontPanel.h"
 
 #include <math.h>
 #include <stdio.h>
@@ -55,12 +55,6 @@ TextDocumentTest::ReadyToRun()
 
 	BScrollView* scrollView = new BScrollView("text scroll view", documentView,
 		false, true, B_NO_BORDER);
-	FontView* fView = new FontView();
-	//fView->SetFilter("be");
-
-	BScrollView* fontScrollView = new BScrollView("font scroll view", fView,
-		false, true, B_NO_BORDER);		
-
 	BuildFontMenu();
 
 
@@ -101,7 +95,6 @@ TextDocumentTest::ReadyToRun()
 	statusBar->AddSeparator();
 	BLayoutBuilder::Group<>(window, B_VERTICAL,0)
 		.Add(toolBar)
-		.Add(fontScrollView)
 		.Add(scrollView)
 		.SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNLIMITED))
 		.Add(statusBar)
@@ -198,6 +191,8 @@ TextDocumentTest::ReadyToRun()
 	documentView->MakeFocus();
 
 	window->Show();
+	FontPanel *fPanel = new FontPanel();
+	fPanel->Show();
 }
 
 
