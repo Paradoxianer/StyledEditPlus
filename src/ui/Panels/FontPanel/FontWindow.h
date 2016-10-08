@@ -3,6 +3,7 @@
 
 #include <Window.h>
 #include "FontView.h"
+#include <PopUpMenu.h>
 
 class FontWindow : public BWindow
 {
@@ -14,7 +15,7 @@ public:
 	
 	void			ReallyQuit(void) { fReallyQuit = true; }
 	
-	FontView		fView;
+	FontView		*fView;
 
 private:
 	bool			fReallyQuit;
@@ -22,12 +23,12 @@ private:
 	/*BCheckBox		fBold;
 	BCheckBox		fItalic;
 	
-	BCheckBox		fStrikeOut;
+	BCheckBox		fStrikeOut;*/
 	
-	BPopUpMenu		fForeGroundColor;
-	BPopUpMenu		fBackGroundColor;
+	BPopUpMenu		*fForeGroundColor;
+	BPopUpMenu		*fBackGroundColor;
 	
-	BSpinner		fSize;
+	/*BSpinner		fSize;
 	BDecimalSpinner	fOutline;*/
 	
 	

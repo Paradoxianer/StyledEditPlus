@@ -9,6 +9,10 @@
 #include <Font.h>
 #include <Message.h>
 #include <Messenger.h>
+#include <Catalog.h>
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "FontPanel"
 
 class FontWindow;
 

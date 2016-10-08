@@ -34,7 +34,7 @@ private:
 
 FontPreview::FontPreview(const BRect frame)
  :	BView(frame,"fontpreview",B_FOLLOW_LEFT_RIGHT | B_FOLLOW_TOP, B_WILL_DRAW),
- 	fPreviewText("AaBbCcDdEeFfGg1234567890")
+ 	fPreviewText(PREVIEW_STR)
 {
 }
 
@@ -42,7 +42,7 @@ FontPreview::FontPreview(const BRect frame)
 void
 FontPreview::SetPreviewText(const char *text)
 {
-	fPreviewText = text ? text : "AaBbCcDdEeFfGg1234567890";
+	fPreviewText = text ? text : PREVIEW_STR;
 }
 
 
@@ -85,17 +85,17 @@ FontPanel::FontPanel(BMessenger *target,BMessage *msg, float size, bool modal,
 	fWindow = new FontWindow(BRect(200,200,600,500),size);
 	
 	if (target)
-		fWindow->fView.SetTarget(*target);
+		fWindow->fView->SetTarget(*target);
 	
 	if (msg)
-		fWindow->fView.SetMessage(msg);
+		fWindow->fView->SetMessage(msg);
 	
 	if (modal)
 		fWindow->SetFeel(B_MODAL_APP_WINDOW_FEEL);
 	
 	
-	fWindow->fView.SetFontSize(size);
-//	fWindow->fView.SetHideWhenDone(hide_when_done);
+	fWindow->fView->SetFontSize(size);
+//	fWindow->fView->SetHideWhenDone(hide_when_done);
 }
 
 
@@ -109,14 +109,14 @@ FontPanel::~FontPanel(void)
 void
 FontPanel::SelectFont(const BFont &font)
 {
-	fWindow->fView.SelectFont(&font);
+	fWindow->fView->SelectFont(&font);
 }
 
 
 void
 FontPanel::SelectFont(font_family family, font_style style, float size)
 {
-	fWindow->fView.SelectFont(family,style,size);
+	fWindow->fView->SelectFont(family,style,size);
 }
 
 
@@ -151,33 +151,33 @@ FontPanel::Window(void) const
 void
 FontPanel::SetTarget(BMessenger msgr)
 {
-	fWindow->fView.SetTarget(msgr);
+	fWindow->fView->SetTarget(msgr);
 }
 
 
 void
 FontPanel::SetMessage(BMessage *msg)
 {
-	fWindow->fView.SetMessage(msg);
+	fWindow->fView->SetMessage(msg);
 }
 
 
 void
 FontPanel::SetHideWhenDone(bool value)
 {
-	//fWindow->fView.SetHideWhenDone(value);
+	//fWindow->fView->SetHideWhenDone(value);
 }
 
 
 bool
 FontPanel::HideWhenDone(void) const
 {
-//	return fWindow->fView.HideWhenDone();
+//	return fWindow->fView->HideWhenDone();
 }
 
 
 void
 FontPanel::SetFontSize(uint16 size)
 {
-	fWindow->fView.SetFontSize(size);
+	fWindow->fView->SetFontSize(size);
 }
