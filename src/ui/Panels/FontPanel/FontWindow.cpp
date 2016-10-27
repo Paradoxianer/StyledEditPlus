@@ -35,8 +35,9 @@ FontWindow::FontWindow(const BRect frame, float fontsize)
  			.Add(new BCheckBox(B_TRANSLATE("Strike Out")),1,0)
  		)	
 		.Add(BGroupLayoutBuilder(B_HORIZONTAL)
-			.Add(new BButton("ok",B_TRANSLATE("OK"),new BMessage(M_OK)))
+			.AddGlue()
 			.Add(new BButton("cancel",B_TRANSLATE("Cancel"),new BMessage(M_CANCEL)))
+			.Add(new BButton("ok",B_TRANSLATE("OK"),new BMessage(M_OK)))		
 		)
  	);
 }
@@ -44,6 +45,8 @@ FontWindow::FontWindow(const BRect frame, float fontsize)
 
 FontWindow::~FontWindow(void)
 {
+	ReallyQuit();
+	PostMessage(B_QUIT_REQUESTED);
 }
 
 
@@ -52,7 +55,6 @@ FontWindow::QuitRequested(void)
 {
 	if (!fReallyQuit)
 		PostMessage(M_HIDE_WINDOW);
-	
 	return fReallyQuit;
 }
 
@@ -60,6 +62,7 @@ FontWindow::QuitRequested(void)
 void
 FontWindow::MessageReceived(BMessage *msg)
 {
+	msg->PrintToStream();
 	if (msg->what == M_HIDE_WINDOW)
 		Hide();
 	else

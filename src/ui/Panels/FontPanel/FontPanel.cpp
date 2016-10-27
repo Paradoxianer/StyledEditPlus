@@ -83,7 +83,7 @@ FontPanel::FontPanel(BMessenger *target,BMessage *msg, float size, bool modal,
 					bool hide_when_done)
 {
 	fWindow = new FontWindow(BRect(200,200,600,500),size);
-	
+	fWindow->ReallyQuit();
 	if (target)
 		fWindow->fView->SetTarget(*target);
 	
@@ -165,7 +165,7 @@ FontPanel::SetMessage(BMessage *msg)
 void
 FontPanel::SetHideWhenDone(bool value)
 {
-	//fWindow->fView->SetHideWhenDone(value);
+//	fWindow->fView->SetHideWhenDone(value);
 }
 
 
