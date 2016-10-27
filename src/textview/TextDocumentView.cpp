@@ -150,6 +150,13 @@ TextDocumentView::MouseDown(BPoint where)
 	}
 	if (clicks >1){
 		
+		bool rightOfCenter;
+		int32 offset = fTextDocumentLayout.TextOffsetAt(where.x,where.y,rightOfCenter);
+		float x1,y1,x2,y2;
+		fTextDocumentLayout.GetTextBounds(offset,x1,y2,x2,y2);
+		SetCaret(BPoint(x1,y1),false);
+		SetCaret(BPoint(x2,y2), true);
+
 		//TODO if its 2 then select the TextSpan
 		//find the textoffset where the TextSpan starts
 		//TextSpan.Text() ->Length
@@ -157,13 +164,12 @@ TextDocumentView::MouseDown(BPoint where)
 		//find the textoffset where the Paragraph starts
 		//ParagraphAt -> Paragraph.Length()
 	}
-	
-
-	fMouseDown = true;
-	SetMouseEventMask(B_POINTER_EVENTS, B_LOCK_WINDOW_FOCUS);
-
-	bool extendSelection = (modifiers & B_SHIFT_KEY) != 0;
-	SetCaret(where, extendSelection);
+	else {
+		fMouseDown = true;
+		SetMouseEventMask(B_POINTER_EVENTS, B_LOCK_WINDOW_FOCUS);
+		bool extendSelection = (modifiers & B_SHIFT_KEY) != 0;
+		SetCaret(where, extendSelection);
+	}
 }
 
 

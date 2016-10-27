@@ -39,6 +39,7 @@ TextDocumentTest::TextDocumentTest()
 
 TextDocumentTest::~TextDocumentTest()
 {
+	
 }
 
 
@@ -192,7 +193,7 @@ TextDocumentTest::ReadyToRun()
 
 	window->Show();
 	FontPanel *fPanel = new FontPanel();
-	fPanel->Show();
+	fPanel->Show();	
 }
 
 
