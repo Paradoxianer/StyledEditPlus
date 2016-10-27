@@ -7,6 +7,7 @@ LinkedTextItem::LinkedTextItem()
 	length	= 0;
 }
 
+
 LinkedTextItem::LinkedTextItem(LinkedTextItem &newPrev,
 								LinkedTextItem &newNext, int32 newLength)
 {
@@ -48,19 +49,29 @@ TextSpan::operator!=(const TextSpan& other) const
 	return !(*this == other);
 }
 
+
 int32 LinkedTextItem::Start()
 {
 	if (prev== NULL)
-		return NULL
+		return 0;
 	else
 		return prev->End();
 }
 
+
 int32 LinkedTextItem::End()
 {
-	if (prev== NULL)
+	if (prev == NULL)
 		return length;
 	else
 		return (prev->End()+length);
 }
 
+
+int32 LinkedTextItem::Index()
+{
+	if (prev == NULL)
+		return 0;
+	else
+		return prev->Index()+1;
+}

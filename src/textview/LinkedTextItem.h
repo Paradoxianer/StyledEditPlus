@@ -3,6 +3,8 @@
 
 #include <String.h>
 
+//try to build this as a kind of double linked List
+
 class LinkedTextItem {
 public:
 								LinkedTextItem();
@@ -35,7 +37,8 @@ public:
 			
 			//returns the Start + Length()
 			void				End();
-	
+
+			int32				Index();
 
 private:
 			LinkedTextItem	*prev;
