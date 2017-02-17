@@ -1,0 +1,3 @@
+[submodule "src/ui/Panels/FontPanel"] 
+  path = src/ui/Panels/FontPanel
+  url = https://github.com/Paradoxianer/FontPanel
